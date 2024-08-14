@@ -6,6 +6,7 @@ on:
       - master
   schedule:
     - cron: '*/16 * * * *'
+  workflow_dispatch:
 
 env:
   UPDATE_IPV4: true
