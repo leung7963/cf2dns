@@ -50,54 +50,17 @@ def get_optimization_ip():
         return None
 
 def changeDNS(line, s_info, c_info, domain, sub_domain, cloud):
-    global AFFECT_NUM, RECORD_TYPE
-
-    lines = {"CM": "移动", "CU": "联通", "CT": "电信", "AB": "境外", "DEF": "默认"}
-    line = lines[line]
-
-    try:
-        create_num = AFFECT_NUM - len(s_info)
-        if create_num == 0:
-            for info in s_info:
-                if len(c_info) == 0:
-                    break
-                cf_ip = c_info.pop(random.randint(0,len(c_info)-1))["ip"]
-                if cf_ip in str(s_info):
-                    continue
-                ret = cloud.change_record(domain, info["recordId"], sub_domain, cf_ip, RECORD_TYPE, line, TTL)
-                if(DNS_SERVER != 1 or ret["code"] == 0):
-                    print("CHANGE DNS SUCCESS: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip )
-                else:
-                    print("CHANGE DNS ERROR: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip + "----MESSAGE: " + ret["message"] )
-        elif create_num > 0:
-            for i in range(create_num):
-                if len(c_info) == 0:
-                    break
-                cf_ip = c_info.pop(random.randint(0,len(c_info)-1))["ip"]
-                if cf_ip in str(s_info):
-                    continue
-                ret = cloud.create_record(domain, sub_domain, cf_ip, RECORD_TYPE, line, TTL)
-                if(DNS_SERVER != 1 or ret["code"] == 0):
-                    print("CREATE DNS SUCCESS: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----VALUE: " + cf_ip )
-                else:
-                    print("CREATE DNS ERROR: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip + "----MESSAGE: " + ret["message"] )
-        else:
-            for info in s_info:
-                if create_num == 0 or len(c_info) == 0:
-                    break
-                cf_ip = c_info.pop(random.randint(0,len(c_info)-1))["ip"]
-                if cf_ip in str(s_info):
-                    create_num += 1
-                    continue
-                ret = cloud.change_record(domain, info["recordId"], sub_domain, cf_ip, RECORD_TYPE, line, TTL)
-                if(DNS_SERVER != 1 or ret["code"] == 0):
-                    print("CHANGE DNS SUCCESS: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip )
-                else:
-                    print("CHANGE DNS ERROR: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----DOMAIN: " + domain + "----SUBDOMAIN: " + sub_domain + "----RECORDLINE: "+line+"----RECORDID: " + str(info["recordId"]) + "----VALUE: " + cf_ip + "----MESSAGE: " + ret["message"] )
-                create_num += 1
-    except Exception as e:
-            print("CHANGE DNS ERROR: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----MESSAGE: " + str(traceback.print_exc()))
-
+    #...
+    if create_num > 0:
+        for i in range(create_num):
+            if len(c_info) == 0:
+                break
+            # 根据新的 IP 结构获取 IP
+            cf_ip = c_info.pop(random.randint(0,len(c_info)-1))
+            # 如果 cf_ip 不是期望的 IP 格式，可能需要进一步处理
+            if cf_ip in str(s_info):
+                continue
+            #...
 def main(cloud):
     global AFFECT_NUM, RECORD_TYPE
     if len(DOMAINS) > 0:
