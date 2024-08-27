@@ -50,7 +50,14 @@ def get_optimization_ip():
         return None
 
 def changeDNS(line, s_info, c_info, domain, sub_domain, cloud):
-    #...
+    global AFFECT_NUM, RECORD_TYPE
+
+    lines = {"CM": "移动", "CU": "联通", "CT": "电信", "AB": "境外", "DEF": "默认"}
+    line = lines[line]
+
+    create_num = None
+    # 计算 create_num 的值
+    create_num = AFFECT_NUM - len(s_info)
     if create_num > 0:
         for i in range(create_num):
             if len(c_info) == 0:
