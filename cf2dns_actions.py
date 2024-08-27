@@ -102,7 +102,7 @@ def main(cloud):
                             info.append(temp_info)
                         for line in lines:
                             # 不再区分不同类型的 IP，直接使用单一的 IP 列表
-                            changeDNS("DEFAULT", info, temp_cfips, domain, sub_domain, cloud)
+                            changeDNS("DEF", info, temp_cfips, domain, sub_domain, cloud)
         except Exception as e:
             print("CHANGE DNS ERROR: ----Time: " + str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())) + "----MESSAGE: " + str(traceback.print_exc()))
 
